@@ -8,6 +8,6 @@ exports.createSuperheroSchema = zod_1.z.object({
     origin_description: zod_1.z.string().min(1, 'Description is required'),
     superpowers: zod_1.z.array(zod_1.z.string()).min(1, 'At least one superpower is required'),
     catch_phrase: zod_1.z.string().min(1, 'Catch phrase is required'),
-    images: zod_1.z.array(zod_1.z.string()).optional(), // заглушка
+    images: zod_1.z.array(zod_1.z.string()),
 });
 exports.updateSuperheroSchema = exports.createSuperheroSchema.partial(); // всі поля необов'язкові

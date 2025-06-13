@@ -4,7 +4,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "s:trans": "tsc --project ./tsconfig.json && tsc-alias -p ./tsconfig.json",
+    "s:trans": "tsc --project ./tsconfig.json",
     "start": "node dist-express/index.js",
     "start:dev": "npm run s:trans && npm run start"
   },
@@ -13,6 +13,7 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "dotenv": "^16.5.0",
     "express": "^5.1.0",
     "pg": "^8.16.0",
     "zod": "^3.25.64"

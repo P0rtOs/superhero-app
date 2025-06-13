@@ -6,7 +6,7 @@ export const createSuperheroSchema = z.object({
   origin_description: z.string().min(1, 'Description is required'),
   superpowers: z.array(z.string()).min(1, 'At least one superpower is required'),
   catch_phrase: z.string().min(1, 'Catch phrase is required'),
-  images: z.array(z.string()).optional(), // заглушка
+  images: z.array(z.string()),
 });
 
 export const updateSuperheroSchema = createSuperheroSchema.partial(); // всі поля необов'язкові

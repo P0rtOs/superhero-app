@@ -3,16 +3,17 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.pool = void 0;
 const pg_1 = require("pg");
 const pool = new pg_1.Pool({
-    user: 'postgres',
-    host: 'localhost',
-    database: 'superheroes',
-    password: 'your_password',
-    port: 5432,
+    user: process.env.POSTGRES_USER,
+    host: process.env.POSTGRES_HOST,
+    database: process.env.POSTGRES_DB,
+    password: process.env.POSTGRES_PASSWORD,
+    port: Number(process.env.POSTGRES_PORT),
 });
 exports.pool = pool;
-pool.on('connect', () => {
-    console.log('Connected to PostgreSQL database');
-});
-pool.on('error', (err) => {
-    console.error('PostgreSQL error:', err.message);
+pool.connect()
+    .then(() => {
+    console.log('✅ Connected to PostgreSQL database');
+})
+    .catch((err) => {
+    console.error('❌ Failed to connect to PostgreSQL:', err.message);
 });

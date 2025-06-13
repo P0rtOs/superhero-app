@@ -1,19 +1,19 @@
 import { Pool } from 'pg';
 
-const pool: Pool = new Pool({
-  user: 'postgres',
-  host: 'localhost',
-  database: 'superheroes',
-  password: 'your_password',
-  port: 5432,
+const pool = new Pool({
+  user: process.env.POSTGRES_USER,
+  host: process.env.POSTGRES_HOST,
+  database: process.env.POSTGRES_DB,
+  password: process.env.POSTGRES_PASSWORD,
+  port: Number(process.env.POSTGRES_PORT),
 });
 
-pool.on('connect', () => {
-  console.log('Connected to PostgreSQL database');
-});
-
-pool.on('error', (err: Error) => {
-  console.error('PostgreSQL error:', err.message);
-});
+pool.connect()
+  .then(() => {
+    console.log('✅ Connected to PostgreSQL database');
+  })
+  .catch((err) => {
+    console.error('❌ Failed to connect to PostgreSQL:', err.message);
+  });
 
 export { pool };

@@ -1,3 +1,4 @@
+//базова структура героя
 export interface Superhero {
   id: number;
   nickname: string;
@@ -9,3 +10,6 @@ export interface Superhero {
 }
 
 export interface CreateSuperheroDto extends Omit<Superhero, 'id'> {}
+
+//для оновлення — всі поля необов'язкові
+export type UpdateSuperheroDto = Partial<CreateSuperheroDto>;

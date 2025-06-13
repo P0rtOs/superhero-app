@@ -14,21 +14,8 @@ const db_1 = require("../config/db");
 exports.SuperheroModel = {
     getAll() {
         return __awaiter(this, void 0, void 0, function* () {
-            // Заглушка: повертаємо один хардкодний об’єкт супергероя для тесту
-            return [
-                {
-                    id: 1,
-                    nickname: 'Superman',
-                    real_name: 'Clark Kent',
-                    origin_description: 'Він народився Кал-Ел на планеті Криптон...',
-                    superpowers: ['solar energy absorption', 'flight', 'heat vision'],
-                    catch_phrase: "Look, up in the sky, it's a bird, it's a plane, it's Superman!",
-                    images: [],
-                },
-            ];
-            // Пізніше замінимо на справжній запит до БД:
-            // const result = await pool.query('SELECT * FROM superheroes');
-            // return result.rows;
+            const result = yield db_1.pool.query('SELECT * FROM superheroes');
+            return result.rows;
         });
     },
     getById(id) {
@@ -39,25 +26,49 @@ exports.SuperheroModel = {
     },
     create(data) {
         return __awaiter(this, void 0, void 0, function* () {
-            const result = yield db_1.pool.query(`INSERT INTO superheroes (nickname, real_name, origin_description, superpowers, catch_phrase)
-       VALUES ($1, $2, $3, $4, $5)
-       RETURNING *`, [data.nickname, data.real_name, data.origin_description, data.superpowers, data.catch_phrase]);
+            const result = yield db_1.pool.query(`INSERT INTO superheroes 
+     (nickname, real_name, origin_description, superpowers, catch_phrase, images)
+     VALUES ($1, $2, $3, $4, $5, $6)
+     RETURNING *`, [
+                data.nickname,
+                data.real_name,
+                data.origin_description,
+                data.superpowers,
+                data.catch_phrase,
+                data.images
+            ]);
             return result.rows[0];
         });
     },
-    // @ts-ignore
     update(id, data) {
         return __awaiter(this, void 0, void 0, function* () {
-            // @ts-ignore
-            const fields = Object.keys(data).map((key, index) => `${key} = $${index + 2}`).join(', ');
+            Number(id);
+            const fields = [];
+            const values = [];
+            let idx = 1;
+            for (const [key, value] of Object.entries(data)) {
+                fields.push(`${key} = $${idx++}`);
+                values.push(value);
+            }
+            if (fields.length === 0)
+                return null;
+            values.push(id);
+            const query = `
+      UPDATE superheroes
+      SET ${fields.join(', ')}
+      WHERE id = $${idx}
+      RETURNING *
+    `;
+            const result = yield db_1.pool.query(query, values);
+            return result.rows[0] || null;
         });
     },
-    // @ts-ignore
     delete(id) {
         return __awaiter(this, void 0, void 0, function* () {
-            // @ts-ignore
+            var _a;
+            Number(id);
             const result = yield db_1.pool.query('DELETE FROM superheroes WHERE id = $1', [id]);
+            return ((_a = result.rowCount) !== null && _a !== void 0 ? _a : 0) > 0;
         });
     }
-    // update, delete, etc...
 };
