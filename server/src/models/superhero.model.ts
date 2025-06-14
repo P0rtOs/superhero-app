@@ -63,7 +63,7 @@ export const SuperheroModel = {
   },
 
   async getInRange(fromId: number, toId: number): Promise<Superhero[]> {
-  const result = await pool.query(
+    const result = await pool.query(
     `SELECT * FROM superheroes WHERE id BETWEEN $1 AND $2 ORDER BY id`,
     [fromId, toId]);
     return result.rows;
@@ -82,19 +82,20 @@ export const SuperheroModel = {
   },
 
   async getQuickPaginated(page: number): Promise<SuperheroLittle[]> {
-  const limit = 5;
-  const offset = (page - 1) * limit;
+    const limit = 5;
+    const offset = (page - 1) * limit;
 
-  const result = await pool.query(
-    `
-    SELECT id, nickname, images[1] AS image
-    FROM superheroes
-    ORDER BY id
-    LIMIT $1 OFFSET $2
-    `,
-    [limit, offset]
-  );
+    const result = await pool.query(
+      `
+      SELECT id, nickname, images[1] AS image
+      FROM superheroes
+      ORDER BY id
+      LIMIT $1 OFFSET $2
+      `,
+      [limit, offset]
+    );
 
-  return result.rows;
-}
+    return result.rows;
+  }
+
 };

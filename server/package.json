@@ -6,7 +6,9 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "s:trans": "tsc --project ./tsconfig.json",
     "start": "node dist-express/index.js",
-    "start:dev": "npm run s:trans && npm run start"
+    "start:dev": "npm run s:trans && npm run start",
+    "jest": "jest",
+    "test:watch": "jest --watch"
   },
   "keywords": [],
   "author": "",
@@ -20,8 +22,11 @@
   },
   "devDependencies": {
     "@types/express": "^5.0.3",
+    "@types/jest": "^29.5.14",
     "@types/node": "^24.0.1",
     "@types/pg": "^8.15.4",
+    "jest": "^30.0.0",
+    "ts-jest": "^29.4.0",
     "ts-node-dev": "^2.0.0",
     "tsc-alias": "^1.8.16",
     "typescript": "^5.8.3"
