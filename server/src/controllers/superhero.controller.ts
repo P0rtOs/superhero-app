@@ -6,19 +6,19 @@ export default {
     try {
       const newHero = await superheroService.createSuperhero(req.body);
       res.status(201).json(newHero);
-    } catch (error) {
-      next(error);
-    }
-  },
+      } catch (error) {
+        next(error);
+      }
+    },
   // _req заглушка
   async getSuperheroes(_req: Request, res: Response, next: NextFunction) {
     try {
       const heroes = await superheroService.getAllSuperheroes();
       res.json(heroes);
-    } catch (error) {
-      next(error);
-    }
-  },
+      } catch (error) {
+        next(error);
+      }
+    },
 
   async getSuperheroById(
   req: Request, 
@@ -34,10 +34,10 @@ export default {
       }
 
       res.json(hero);
-    } catch (error) {
-      next(error);
-    }
-  },
+      } catch (error) {
+        next(error);
+      }
+    },
 
   async updateSuperhero(req: Request, res: Response, next: NextFunction) {
     try {
@@ -47,10 +47,10 @@ export default {
         return;
       }
       res.json(updatedHero);
-    } catch (error) {
-      next(error);
-    }
-  },
+      } catch (error) {
+        next(error);
+      }
+    },
 
   async deleteSuperhero(req: Request, res: Response, next: NextFunction) {
     try {
@@ -60,6 +60,19 @@ export default {
         return;
       }
       res.status(204).send();
+      } catch (error) {
+        next(error);
+      }
+    },
+
+  async getByIdRange(req: Request, res: Response, next: NextFunction) {
+  try {
+    const heroes = await superheroService.getRange(req.params.fromId, req.params.toId);
+    if (!heroes) {
+      res.status(404).json({ error: 'No heroes in this range' });
+        return;
+    }
+    res.json(heroes);
     } catch (error) {
       next(error);
     }

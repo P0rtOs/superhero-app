@@ -62,5 +62,13 @@ export const SuperheroModel = {
     Number(id);
     const result: QueryResult = await pool.query('DELETE FROM superheroes WHERE id = $1', [id]);
     return (result.rowCount ?? 0) > 0;
+  },
+
+  async getInRange(fromId: number, toId: number): Promise<Superhero[]> {
+  const result = await pool.query(
+    `SELECT * FROM superheroes WHERE id BETWEEN $1 AND $2 ORDER BY id`,
+    [fromId, toId]);
+    return result.rows;
   }
+
 };

@@ -1,6 +1,7 @@
 import { Superhero, CreateSuperheroDto } from '../shared/types/superhero';
 import { SuperheroModel } from '../models/superhero.model';
 
+// Тут можна додавати логіку, але її немає :)
 const superheroService = {
   getAllSuperheroes(): Promise<Superhero[]> {
     return SuperheroModel.getAll();
@@ -11,18 +12,21 @@ const superheroService = {
   },
 
   createSuperhero(data: CreateSuperheroDto): Promise<Superhero> {
-    // Тут можна додати бізнес-логіку, наприклад, перевірки
     return SuperheroModel.create(data);
   },
 
   updateSuperhero(id: string, data: Partial<CreateSuperheroDto>): Promise<Superhero | null> {
-    // Бізнес-логіка оновлення
     return SuperheroModel.update(id, data);
   },
 
   deleteSuperhero(id: string): Promise<boolean> {
     return SuperheroModel.delete(id);
   },
+
+  getRange(from: string, to: string) {
+  return SuperheroModel.getInRange(Number(from), Number(to));
+  },
+
 };
 
 export default superheroService;

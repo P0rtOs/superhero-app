@@ -9,6 +9,13 @@ export const createSuperheroSchema = z.object({
   images: z.array(z.string()),
 });
 
+export const idRangeSchema = z.object({
+  fromId: z.string().regex(/^\d+$/, 'fromId must be a number').transform(Number),
+  toId: z.string().regex(/^\d+$/, 'toId must be a number').transform(Number),
+}).refine(data => data.fromId <= data.toId, {
+  message: 'fromId must be less than or equal to toId',
+});
+
 export const updateSuperheroSchema = createSuperheroSchema.partial(); // всі поля необов'язкові
 
 export type CreateSuperheroDto = z.infer<typeof createSuperheroSchema>;
