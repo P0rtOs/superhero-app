@@ -1,5 +1,5 @@
 import { pool } from '../config/db';
-import { Superhero, CreateSuperheroDto, UpdateSuperheroDto } from '../shared/types/superhero';
+import { Superhero, CreateSuperheroDto, UpdateSuperheroDto, SuperheroLittle } from '../shared/types/superhero';
 import { QueryResult } from 'pg';
 
 export const SuperheroModel = {
@@ -9,7 +9,7 @@ export const SuperheroModel = {
     return result.rows;
   },
 
-  async getById(id: string): Promise<Superhero | null> {
+  async getById(id: number): Promise<Superhero | null> {
     const result = await pool.query('SELECT * FROM superheroes WHERE id = $1', [id]);
     return result.rows[0] || null;
   },
@@ -33,8 +33,7 @@ export const SuperheroModel = {
   },
 
 
-  async update(id: string, data: UpdateSuperheroDto): Promise<Superhero | null> {
-    Number(id);
+  async update(id: number, data: UpdateSuperheroDto): Promise<Superhero | null> {
     const fields: string[] = [];
     const values: any[] = [];
     let idx = 1;
@@ -58,8 +57,7 @@ export const SuperheroModel = {
     return result.rows[0] || null;
   },
 
-  async delete(id: string): Promise<boolean> {
-    Number(id);
+  async delete(id: number): Promise<boolean> {
     const result: QueryResult = await pool.query('DELETE FROM superheroes WHERE id = $1', [id]);
     return (result.rowCount ?? 0) > 0;
   },
@@ -69,6 +67,34 @@ export const SuperheroModel = {
     `SELECT * FROM superheroes WHERE id BETWEEN $1 AND $2 ORDER BY id`,
     [fromId, toId]);
     return result.rows;
-  }
+  },
 
+  async getPaginated(page: number): Promise<Superhero[]> {
+    const limit = 5;
+    const offset = (page - 1) * limit;
+
+    const result = await pool.query(
+      'SELECT * FROM superheroes ORDER BY id LIMIT $1 OFFSET $2',
+      [limit, offset]
+    );
+
+    return result.rows;
+  },
+
+  async getQuickPaginated(page: number): Promise<SuperheroLittle[]> {
+  const limit = 5;
+  const offset = (page - 1) * limit;
+
+  const result = await pool.query(
+    `
+    SELECT id, nickname, images[1] AS image
+    FROM superheroes
+    ORDER BY id
+    LIMIT $1 OFFSET $2
+    `,
+    [limit, offset]
+  );
+
+  return result.rows;
+}
 };

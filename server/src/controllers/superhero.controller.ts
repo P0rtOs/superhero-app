@@ -2,7 +2,7 @@ import { Request, Response, NextFunction } from 'express';
 import superheroService from '../services/superhero.service';
 
 export default {
-  async createSuperhero(req: Request, res: Response, next: NextFunction) {
+  async createSuperhero(req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
       const newHero = await superheroService.createSuperhero(req.body);
       res.status(201).json(newHero);
@@ -11,7 +11,7 @@ export default {
       }
     },
   // _req заглушка
-  async getSuperheroes(_req: Request, res: Response, next: NextFunction) {
+  async getSuperheroes(_req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
       const heroes = await superheroService.getAllSuperheroes();
       res.json(heroes);
@@ -20,11 +20,7 @@ export default {
       }
     },
 
-  async getSuperheroById(
-  req: Request, 
-  res: Response, 
-  next: NextFunction
-  ): Promise<void> {
+  async getSuperheroById(req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
       const hero = await superheroService.getSuperheroById(req.params.id);
 
@@ -39,7 +35,7 @@ export default {
       }
     },
 
-  async updateSuperhero(req: Request, res: Response, next: NextFunction) {
+  async updateSuperhero(req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
       const updatedHero = await superheroService.updateSuperhero(req.params.id, req.body);
       if (!updatedHero) {
@@ -52,7 +48,7 @@ export default {
       }
     },
 
-  async deleteSuperhero(req: Request, res: Response, next: NextFunction) {
+  async deleteSuperhero(req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
       const deleted = await superheroService.deleteSuperhero(req.params.id);
       if (!deleted) {
@@ -65,7 +61,7 @@ export default {
       }
     },
 
-  async getByIdRange(req: Request, res: Response, next: NextFunction) {
+  async getByIdRange(req: Request, res: Response, next: NextFunction): Promise<void> {
   try {
     const heroes = await superheroService.getRange(req.params.fromId, req.params.toId);
     if (!heroes) {
@@ -77,4 +73,31 @@ export default {
       next(error);
     }
   },
+
+  async getPaginatedSuperheroes(req: Request, res: Response, next: NextFunction): Promise<void> {
+  try {
+    const heroes = await superheroService.getPaginated(req.params.id);
+    if (!heroes.length) {
+      res.status(404).json({ error: 'No heroes on this page' });
+      return;
+    }
+    res.json(heroes);
+    } catch (error) {
+      next(error);
+    }
+  },
+  
+  async getQuickPaginatedSuperheroes(req: Request, res: Response, next: NextFunction): Promise<void> {
+    try {
+      const heroes = await superheroService.getQuickPaginated(req.params.id);
+      if (!heroes.length) {
+        res.status(404).json({ error: 'No heroes on this page' });
+        return;
+      }
+      res.json(heroes);
+    } catch (error) {
+      next(error);
+    }
+  }
+
 };

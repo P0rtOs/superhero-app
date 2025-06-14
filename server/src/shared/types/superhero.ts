@@ -9,6 +9,12 @@ export interface Superhero {
   images: string[];
 }
 
+export type SuperheroLittle = {
+  id: number;
+  nickname: string;
+  image: string;
+}
+
 export interface CreateSuperheroDto extends Omit<Superhero, 'id'> {}
 
 //для оновлення — всі поля необов'язкові
