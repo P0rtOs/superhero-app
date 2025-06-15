@@ -10,7 +10,6 @@ const failedQueue: Array<() => void> = [];
 
 const api = axios.create({
   baseURL: "http://localhost:4343/api/superheroes",
-  headers: { "Content-Type": "application/json" },
   timeout: 10_000,
 });
 
