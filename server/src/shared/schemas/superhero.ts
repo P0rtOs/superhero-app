@@ -4,7 +4,7 @@ export const createSuperheroSchema = z.object({
   nickname: z.string().min(1, 'Nickname is required'),
   real_name: z.string().min(1, 'Real name is required'),
   origin_description: z.string().min(1, 'Description is required'),
-  superpowers: z.array(z.string()).min(1, 'At least one superpower is required'),
+  superpowers: z.union([z.string().min(1),z.array(z.string()).min(1),]).transform(val => typeof val === 'string' ? [val] : val), 
   catch_phrase: z.string().min(1, 'Catch phrase is required'),
   images: z.array(z.string()).min(1, 'images are required'),
 });

@@ -1,7 +1,6 @@
 import { Superhero, CreateSuperheroDto, SuperheroLittle } from '../shared/types/superhero';
 import { SuperheroModel } from '../models/superhero.model';
 
-// Тут можна додавати логіку, але її немає :)
 const superheroService = {
   getAllSuperheroes(): Promise<Superhero[]> {
     return SuperheroModel.getAll();
@@ -34,6 +33,7 @@ const superheroService = {
   getQuickPaginated(page: string): Promise<SuperheroLittle[]> {
     return SuperheroModel.getQuickPaginated(Number(page));
   },
+
 };
 
 export default superheroService;
