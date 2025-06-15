@@ -5,13 +5,15 @@ import {
   validateUpdateSuperhero,
   validateIdRange,
 } from '../dtos/superhero.validation';
-
+import { upload } from '../middlewares/upload.middleware';
+import { handleImageUpload } from '../middlewares/imageUpload.middleware'; 
+import { handleOptionalImageUpload } from '../middlewares/handleOptionalImageUpload';
 const router = Router();
 
-router.post('/', validateCreateSuperhero, controller.createSuperhero);
+router.post('/', upload.single('image'), handleImageUpload, validateCreateSuperhero, controller.createSuperhero);
 router.get('/', controller.getSuperheroes);
 router.get('/:id', controller.getSuperheroById);
-router.patch('/:id', validateUpdateSuperhero, controller.updateSuperhero);
+router.patch('/:id', upload.single('image'), handleOptionalImageUpload, validateUpdateSuperhero, controller.updateSuperhero);
 router.delete('/:id', controller.deleteSuperhero);
 router.get('/range/:fromId/:toId', validateIdRange, controller.getByIdRange);
 router.get('/paginated/:id', controller.getPaginatedSuperheroes);

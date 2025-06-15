@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import superheroService from '../services/superhero.service';
+import fs from 'fs';
 
 export default {
   async createSuperhero(req: Request, res: Response, next: NextFunction): Promise<void> {
@@ -98,6 +99,37 @@ export default {
     } catch (error) {
       next(error);
     }
+  },
+
+  
+async updateImage(req: Request, res: Response, next: NextFunction): Promise<void> {
+  try {
+    if (!req.file) {
+      res.status(400).json({ error: 'No file uploaded' });
+      return;
+    }
+
+    // лог про повний шлях
+    console.log('🛠 Checking file on disk:', req.file.path);
+    if (!fs.existsSync(req.file.path)) {
+      console.error('❌ File not found at path:', req.file.path);
+      res.status(500).json({ error: 'Uploaded file not found on server' });
+      return;
+    }
+    console.log('✅ File exists, ready to update DB');
+
+    const heroId = req.params.id;
+    const imageUrl = `/uploads/${req.file.filename}`;
+    const updatedHero = await superheroService.updateSuperhero(heroId, { images: [imageUrl] });
+
+    if (!updatedHero) {
+      res.status(404).json({ error: 'Superhero not found' });
+      return;
+    }
+    res.json(updatedHero);
+  } catch (error) {
+    next(error);
   }
+}
 
 };
