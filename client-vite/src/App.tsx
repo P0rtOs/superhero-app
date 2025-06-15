@@ -1,0 +1,14 @@
+import { Routes, Route } from 'react-router';
+import { HomePage } from './pages/HomePage';
+import { DetailedHeroPage } from './pages/DetailedHeroPage';
+
+function App() {
+  return (
+    <Routes>
+      <Route path="/" element={<HomePage />} />
+      <Route path="/hero/:id" element={<DetailedHeroPage />} />
+    </Routes>
+  );
+}
+
+export default App;

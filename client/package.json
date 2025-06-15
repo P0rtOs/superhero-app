@@ -3,8 +3,8 @@
   "version": "1.0.0",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "parcel public/index.html",
-    "build": "parcel build public/index.html --dist-dir dist"
+    "dev": "parcel static/index.html",
+    "build": "parcel build static/index.html --dist-dir dist"
   },
   "keywords": [],
   "author": "",
@@ -16,6 +16,7 @@
     "@types/react-query": "^1.2.8",
     "@types/react-router": "^5.1.20",
     "parcel": "^2.15.2",
+    "parcel-reporter-static-files-copy": "^1.5.3",
     "typescript": "^5.8.3"
   },
   "dependencies": {
