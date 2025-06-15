@@ -1,14 +1,14 @@
-import React from 'react';
-import { BrowserRouter, Routes, Route } from 'react-router';
+import { Routes, Route } from 'react-router';
+import { HomePage } from './pages/HomePage';
+import { DetailedHeroPage } from './pages/DetailedHeroPage';
 
-const App = () => {
+function App() {
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<div>Home page</div>} />
-      </Routes>
-    </BrowserRouter>
+    <Routes>
+      <Route path="/" element={<HomePage />} />
+      <Route path="/hero/:id" element={<DetailedHeroPage />} />
+    </Routes>
   );
-};
+}
 
 export default App;

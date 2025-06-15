@@ -1,0 +1,105 @@
+Опис REST API ендпоінтів для супергероїв
+Всі запити починаються з
+http://localhost:4343/api/superheroes
+
+POST /
+
+Створити нового супергероя
+Вхід: JSON у тілі запиту (validated CreateSuperheroDto), наприклад:
+{
+  "nickname": "Spider-Man",
+  "real_name": "Peter Parker",
+  "origin_description": "Bitten by a radioactive spider",
+  "superpowers": "Spider abilities",
+  "catch_phrase": "With great power comes great responsibility",
+  "images": ["url1", "url2"]
+}
+Вихід: JSON об'єкт створеного супергероя:
+{
+  "id": 123,
+  "nickname": "...",
+  "real_name": "...",
+  "origin_description": "...",
+  "superpowers": "...",
+  "catch_phrase": "...",
+  "images": ["...", "..."]
+}
+
+
+GET /
+
+Отримати повний список усіх супергероїв
+Вхід: немає параметрів
+Вихід: масив об'єктів Superhero[], кожен містить всі поля (id, nickname, real_name і т.д.)
+
+
+
+GET /:id
+
+Отримати супергероя за id
+Вхід:
+Параметр URL: id — числовий ідентифікатор супергероя
+Вихід:
+Об'єкт супергероя Superhero або null, якщо не знайдено.
+
+
+
+PATCH /:id
+
+Оновити частину полів супергероя
+Вхід:
+Параметр URL: id — ідентифікатор
+Тіло запиту — JSON з оновленими полями (validated UpdateSuperheroDto), наприклад:
+{
+  "nickname": "New Nickname",
+  "catch_phrase": "New catch phrase"
+}
+Вихід:
+Оновлений об'єкт супергероя Superhero або null, якщо супергероя не знайдено.
+
+
+
+DELETE /:id
+
+Видалити супергероя за id
+Вхід:
+Параметр URL: id
+Вихід:
+204 або HTTP 404 Not Found з JSON { error: 'Superhero not found' }.
+
+
+
+GET /range/:fromId/:toId
+
+Отримати супергероїв з діапазону id
+Вхід:
+Параметри URL: fromId, toId — числа, межі діапазону включно
+Вихід:
+Масив Superhero[] з усіма героями у діапазоні.
+
+
+
+GET /paginated/:page
+
+Отримати супергероїв з пагінацією (повні дані)
+Вхід:
+Параметр URL: page — номер сторінки (починаючи з 1)
+Вихід:
+Масив Superhero[] — до 5 героїв (limit=5) зі сторінки.
+
+
+
+GET /paginated/quick/:page
+
+Отримати супергероїв з пагінацією, "швидкий" варіант (обмежені поля)
+Вхід:
+Параметр URL: page
+Вихід:
+Масив об'єктів SuperheroLittle[] з полями:
+{
+  id: number;
+  nickname: string;
+  image: string; // перше з масиву images
+}
+до 5 елементів.
+
