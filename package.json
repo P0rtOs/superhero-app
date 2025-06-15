@@ -4,7 +4,7 @@
   "workspaces": [
     "client",
     "server",
-    "packages/shared"
+    "client-vite"
   ],
   "version": "1.0.0",
   "main": "index.js",
@@ -14,12 +14,20 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "description": "",
   "devDependencies": {
     "buffer": "^6.0.3",
     "typescript": "^5.8.3"
   },
   "dependencies": {
     "axios": "^1.10.0"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/P0rtOs/superhero-app.git"
+  },
+  "bugs": {
+    "url": "https://github.com/P0rtOs/superhero-app/issues"
+  },
+  "homepage": "https://github.com/P0rtOs/superhero-app#readme",
+  "description": ""
 }

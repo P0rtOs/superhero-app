@@ -1,15 +1,27 @@
-export function getHeroImage(nickname: string, images?: string[], fallbackCount = 3): string {
-  if (images && images.length > 0) {
-    return images[0];
+// src/utils/getSuperheroImageSources.ts
+
+const BACKEND_URL = 'http://localhost:4343';
+
+export function getHeroImageSources(
+  nickname: string,
+  primaryImage?: string,
+  fallbackCount = 1
+): string[] {
+  const sources: string[] = [];
+
+  // 1) перший пріоритет — primaryImage з БД, перетворюємо у повний URL
+  if (primaryImage) {
+    // Якщо в БД збережено '/uploads/xxx.png'
+    sources.push(`${BACKEND_URL}${primaryImage}`);
   }
 
-  // 2. Пробуємо сформувати локальний шлях (public/images/...) за нікнеймом
+  // 2) локальні картинки в public/images
   for (let i = 1; i <= fallbackCount; i++) {
-    const localPath = `/images/${nickname}${i}.png`;
-    console.log(`Checking local path: ${localPath}`);
-    //Технічно ми не можемо перевірити чи існує файл в public
-    return localPath;
+    sources.push(`/images/${nickname}${i}.png`);
   }
 
-  return '/images/default.png';
+  // 3) дефолт
+  sources.push('/images/default.png');
+
+  return sources;
 }

@@ -1,4 +1,8 @@
-import axios, { AxiosError, AxiosRequestConfig, AxiosResponse } from 'axios';
+import axios, {
+  AxiosError,
+  type AxiosRequestConfig,
+  type AxiosResponse,
+} from "axios";
 // Створено для повторення непройшовших запитів
 // Легко розширити для логінів (використання рефреш-токенів при 401)
 
@@ -17,7 +21,7 @@ function shouldRetry(status?: number): boolean {
 }
 
 api.interceptors.response.use(
-  res => res,
+  (res) => res,
   (err: AxiosError) => {
     const config = err.config as AxiosRequestConfig & { _retry?: boolean };
 
@@ -38,7 +42,7 @@ api.interceptors.response.use(
 
 // Другий інтерцептор — коли будь-який запит успішно пройшов,
 //ми “розблоковуємо” чергу і повторюємо всі відкладені
-api.interceptors.response.use(res => {
+api.interceptors.response.use((res) => {
   while (failedQueue.length) {
     const fn = failedQueue.shift();
     fn && fn();

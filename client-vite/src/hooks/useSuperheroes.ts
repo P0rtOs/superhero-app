@@ -1,12 +1,12 @@
-import { useInfiniteQuery } from '@tanstack/react-query';
-import api from '../api/axiosInstance';
-import type { SuperheroListItem } from '../types/superhero';
+import { useInfiniteQuery } from "@tanstack/react-query";
+import api from "../api/axiosInstance";
+import type { SuperheroListItem } from "../types/superhero";
 
 const PAGE_SIZE = 5;
 
 export function useSuperheroes() {
   return useInfiniteQuery<SuperheroListItem[], Error>({
-    queryKey: ['superheroes'],
+    queryKey: ["superheroes"],
     queryFn: async ({ pageParam }) => {
       const { data } = await api.get<SuperheroListItem[]>(
         `/paginated/quick/${pageParam}`

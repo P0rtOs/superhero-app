@@ -1,5 +1,4 @@
-import React from 'react';
-import { SimpleSuperheroList } from '../components/SuperheroList';
+import { SimpleSuperheroList } from "../components/SuperheroList";
 
 export function HomePage() {
   return (

@@ -1,5 +1,5 @@
-import { Routes, Route } from 'react-router';
-import { HomePage } from './pages/HomePage';
+import { Routes, Route } from "react-router-dom";
+import { HomePage } from "./pages/HomePage";
 import { DetailedHeroPage } from './pages/DetailedHeroPage';
 
 function App() {
