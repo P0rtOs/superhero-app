@@ -17,13 +17,13 @@ export function SimpleSuperheroList() {
     Error
   >({
     queryKey: ["superheroes", page],
-    queryFn: () => api.get(`/paginated/${page}`).then(r => r.data)
+    queryFn: () => api.get(`/paginated/quick/${page}`).then(r => r.data)
   });
 
   // 2) Завантажуємо кількість сторінок
   const { data: totalPages } = useQuery<number, Error>({
-    queryKey: ["superheroes", "pagesAmount"],
-    queryFn: async () => (await api.get("/pages/total")).data.pages,
+  queryKey: ["superheroes", "pagesAmount"],
+  queryFn: async () => (await api.get("/pages/total")).data.total,
   });
 
 
@@ -32,7 +32,7 @@ export function SimpleSuperheroList() {
 
   // Рендер карток
   function HeroCard({ hero }: { hero: SuperheroListItem }) {
-    const sources = getHeroImageSources(hero.nickname, hero.images);
+    const sources = getHeroImageSources(hero.nickname, hero.image);
     const [srcIndex, setSrcIndex] = React.useState(0);
     const handleError = () => {
       if (srcIndex < sources.length - 1) setSrcIndex(i => i + 1);
