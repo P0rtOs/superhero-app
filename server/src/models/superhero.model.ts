@@ -15,19 +15,19 @@ export const SuperheroModel = {
   },
 
   async create(data: CreateSuperheroDto): Promise<Superhero> {
-  const result = await pool.query(
-    `INSERT INTO superheroes 
+    const result = await pool.query(
+      `INSERT INTO superheroes 
      (nickname, real_name, origin_description, superpowers, catch_phrase, images)
      VALUES ($1, $2, $3, $4, $5, $6)
      RETURNING *`,
-    [
-      data.nickname,
-      data.real_name,
-      data.origin_description,
-      data.superpowers,
-      data.catch_phrase,
-      data.images
-    ]
+      [
+        data.nickname,
+        data.real_name,
+        data.origin_description,
+        data.superpowers,
+        data.catch_phrase,
+        data.images
+      ]
     );
     return result.rows[0];
   },
@@ -64,8 +64,8 @@ export const SuperheroModel = {
 
   async getInRange(fromId: number, toId: number): Promise<Superhero[]> {
     const result = await pool.query(
-    `SELECT * FROM superheroes WHERE id BETWEEN $1 AND $2 ORDER BY id`,
-    [fromId, toId]);
+      `SELECT * FROM superheroes WHERE id BETWEEN $1 AND $2 ORDER BY id`,
+      [fromId, toId]);
     return result.rows;
   },
 

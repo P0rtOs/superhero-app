@@ -35,7 +35,7 @@ const superheroService = {
   },
 
   getPagesAmount(): Promise<number> {
-  return SuperheroModel.getPagesAmount();
+    return SuperheroModel.getPagesAmount();
   },
 
 };

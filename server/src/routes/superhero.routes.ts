@@ -6,7 +6,7 @@ import {
   validateIdRange,
 } from '../dtos/superhero.validation';
 import { upload } from '../middlewares/upload.middleware';
-import { handleImageUpload } from '../middlewares/imageUpload.middleware'; 
+import { handleImageUpload } from '../middlewares/imageUpload.middleware';
 import { handleOptionalImageUpload } from '../middlewares/handleOptionalImageUpload';
 const router = Router();
 

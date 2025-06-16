@@ -8,7 +8,7 @@ export function TestHeroPage() {
     <>
       <Header />
       <div style={{ padding: "2rem" }}>
-        <h1>🧪 Test Superhero Operations</h1>
+        <h1>Test Superhero Operations</h1>
         <div style={{ display: "grid", gap: "2rem", gridTemplateColumns: "1fr 1fr 1fr" }}>
           <div style={{ border: "1px solid #ccc", padding: "1rem", borderRadius: "8px" }}>
             <CreateHeroForm />

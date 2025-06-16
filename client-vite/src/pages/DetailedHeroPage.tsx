@@ -39,7 +39,6 @@ export function DetailedHeroPage() {
         {/* Права частина - форма оновлення */}
         <div className="w-1/2 overflow-auto p-6 bg-gray-50 border-l border-gray-300">
           <UpdateHeroForm id={hero.id} />
-          {/* Тут пізніше додамо DeleteHeroForm */}
         </div>
       </div>
     </>

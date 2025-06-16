@@ -2,7 +2,6 @@ import multer from 'multer';
 import path from 'path';
 import fs from 'fs';
 
-// Справжній шлях до src/uploads — гарантовано існує у проєкті
 const uploadDir = path.resolve(__dirname, '../../uploads');
 
 // Перевірити, чи існує папка — і створити, якщо нема

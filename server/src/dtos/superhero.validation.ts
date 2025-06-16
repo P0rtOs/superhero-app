@@ -32,7 +32,6 @@ export function validateIdRange(req: Request, res: Response, next: NextFunction)
     return;
   }
 
-  // перезаписуємо параметри як числа
   req.params = {
     fromId: result.data.fromId.toString(),
     toId: result.data.toId.toString(),

@@ -8,11 +8,11 @@ export interface Superhero {
   images: string[];
 }
 
-// версія для списку (головна сторінка)
+// версія для списку
 export interface SuperheroListItem {
   id: number;
   nickname: string;
-  image: string; // тільки одне зображення
+  image: string;
 }
 
 export type CreateSuperheroDto = Omit<Superhero, 'id'>;

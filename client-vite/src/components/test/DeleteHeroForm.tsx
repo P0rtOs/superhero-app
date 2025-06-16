@@ -14,7 +14,6 @@ export function DeleteHeroForm() {
     try {
       await api.delete(`/${id}`);
       alert("Deleted successfully");
-      // Optionally, reload or navigate away here
     } catch {
       alert("Error deleting hero");
     }

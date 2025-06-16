@@ -1,3 +1,6 @@
+//Було створено для інфініт скрола, але я його прибрав бо він не гарний для нашого варіанту
+
+
 import { useInfiniteQuery } from "@tanstack/react-query";
 import api from "../api/axiosInstance";
 import type { SuperheroListItem } from "../types/superhero";

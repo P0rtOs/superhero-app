@@ -35,9 +35,8 @@ export const DetailedHero: React.FC<DetailedHeroProps> = ({ hero }) => {
         <p className="mb-2 text-lg"><strong>Catch phrase:</strong> "{hero.catch_phrase}"</p>
       </div>
 
-      {/* Права частина: тут буде інший компонент (зміна/видалення героя) */}
+      {/* Права частина: зміна/видалення героя */}
       <div className="w-1/2 max-w-[50vw] p-8 bg-gray-100 overflow-auto">
-        {/* Інтерфейс керування героєм */}
       </div>
     </div>
   );
