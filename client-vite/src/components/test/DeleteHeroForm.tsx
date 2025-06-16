@@ -14,16 +14,34 @@ export function DeleteHeroForm() {
     try {
       await api.delete(`/${id}`);
       alert("Deleted successfully");
-    } catch (err) {
+      // Optionally, reload or navigate away here
+    } catch {
       alert("Error deleting hero");
     }
   };
 
   return (
-    <form onSubmit={handleDelete}>
-      <h3>Delete Superhero</h3>
-      <input placeholder="Hero ID to delete" value={id} onChange={e => setId(e.target.value)} />
-      <button type="submit">Delete</button>
+    <form
+      onSubmit={handleDelete}
+      className="w-full max-w-xs mx-auto bg-white p-6 rounded-lg shadow space-y-4"
+    >
+      <h3 className="text-2xl font-semibold text-center">Delete Superhero</h3>
+
+      <input
+        type="text"
+        placeholder="Hero ID"
+        value={id}
+        onChange={e => setId(e.target.value)}
+        className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-red-500"
+        required
+      />
+
+      <button
+        type="submit"
+        className="w-full bg-red-600 text-white rounded px-4 py-2 hover:bg-red-700 transition-colors"
+      >
+        Delete
+      </button>
     </form>
   );
 }

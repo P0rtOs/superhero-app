@@ -1,10 +1,14 @@
 import { SimpleSuperheroList } from "../components/SuperheroList";
+import { Header } from "../components/Header";
 
 export function HomePage() {
   return (
-    <div>
-      <h1>Test Page for Superheroes</h1>
-      <SimpleSuperheroList />
-    </div>
+    <>
+      <Header />
+      <div>
+        <h2 className="text-3xl font-semibold text-center uppercase mb-6">Superheroes Cards</h2>
+        <SimpleSuperheroList />
+      </div>
+    </>
   );
 }

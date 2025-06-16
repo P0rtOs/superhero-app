@@ -17,20 +17,28 @@ export const DetailedHero: React.FC<DetailedHeroProps> = ({ hero }) => {
   };
 
   return (
-    <div>
-      <h2>{hero.nickname}</h2>
+    <div className="flex min-h-screen w-full">
+      {/* Ліва частина: інформація про героя */}
+      <div className="w-1/2 max-w-[50vw] p-8 flex flex-col items-center bg-gray-50 overflow-auto">
+        <h2 className="text-4xl font-bold mb-6">{hero.nickname}</h2>
 
-      <img
-        src={sources[srcIndex]}
-        alt={hero.nickname}
-        width={100}
-        onError={handleError}
-      />
+        <img
+          src={sources[srcIndex]}
+          alt={hero.nickname}
+          className="w-full max-w-md rounded-lg object-cover mb-6"
+          onError={handleError}
+        />
 
-      <p><strong>Real name:</strong> {hero.real_name}</p>
-      <p><strong>Origin description:</strong> {hero.origin_description}</p>
-      <p><strong>Superpowers:</strong> {hero.superpowers.join(', ')}</p>
-      <p><strong>Catch phrase:</strong> "{hero.catch_phrase}"</p>
+        <p className="mb-2 text-lg"><strong>Real name:</strong> {hero.real_name}</p>
+        <p className="mb-2 text-lg"><strong>Origin description:</strong> {hero.origin_description}</p>
+        <p className="mb-2 text-lg"><strong>Superpowers:</strong> {hero.superpowers.join(', ')}</p>
+        <p className="mb-2 text-lg"><strong>Catch phrase:</strong> "{hero.catch_phrase}"</p>
+      </div>
+
+      {/* Права частина: тут буде інший компонент (зміна/видалення героя) */}
+      <div className="w-1/2 max-w-[50vw] p-8 bg-gray-100 overflow-auto">
+        {/* Інтерфейс керування героєм */}
+      </div>
     </div>
   );
 };
