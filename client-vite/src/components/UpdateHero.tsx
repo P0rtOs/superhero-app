@@ -7,7 +7,6 @@ interface UpdateHeroFormProps {
 }
 
 export function UpdateHeroForm({ id }: UpdateHeroFormProps) {
-  const navigate = useNavigate();
   const [updates, setUpdates] = useState({
     nickname: "",
     real_name: "",
@@ -119,7 +118,6 @@ export function UpdateHeroForm({ id }: UpdateHeroFormProps) {
           className="border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500"
         />
 
-        {/* Скрытый file input + стилизованный label */}
         <div>
           <input
             id="file-input"

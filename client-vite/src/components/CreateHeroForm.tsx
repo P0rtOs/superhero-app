@@ -30,6 +30,7 @@ export function CreateHeroForm() {
     try {
       const res = await api.post("/", formData);
       alert("Created successfully");
+      window.location.reload();
       console.log(res.data);
     } catch (err) {
       alert("Error creating hero");
