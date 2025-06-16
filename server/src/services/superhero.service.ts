@@ -34,6 +34,10 @@ const superheroService = {
     return SuperheroModel.getQuickPaginated(Number(page));
   },
 
+  getPagesAmount(): Promise<number> {
+  return SuperheroModel.getPagesAmount();
+  },
+
 };
 
 export default superheroService;

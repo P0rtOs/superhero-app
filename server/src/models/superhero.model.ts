@@ -96,6 +96,12 @@ export const SuperheroModel = {
     );
 
     return result.rows;
-  }
+  },
+
+  async getPagesAmount(): Promise<number> {
+    const result = await pool.query(`SELECT COUNT(*) FROM superheroes`);
+    const total = parseInt(result.rows[0].count, 10);
+    return Math.ceil(total / 5);
+  },
 
 };

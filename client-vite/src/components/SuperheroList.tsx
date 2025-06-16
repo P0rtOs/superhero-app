@@ -1,57 +1,51 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import { useSuperheroes } from "../hooks/useSuperheroes";
+import { useQuery } from "@tanstack/react-query";
+import api from "../api/axiosInstance";
 import type { SuperheroListItem } from "../types/superhero";
 import { getHeroImageSources } from "../utils/getSuperheroImage";
 
+const PAGE_SIZE = 5;
+
 export function SimpleSuperheroList() {
   const navigate = useNavigate();
-  const {
-    data,
-    isLoading,
-    isError,
-    fetchNextPage,
-    hasNextPage,
-    isFetchingNextPage,
-    error,
-  } = useSuperheroes();
+  const [page, setPage] = React.useState(1);
 
-  const handleClick = (id: number, event: React.MouseEvent) => {
-    if (event.ctrlKey || event.metaKey) {
-      window.open(`/hero/${id}`, "_blank");
-    } else {
-      navigate(`/hero/${id}`);
-    }
-  };
+  // 1) Завантажуємо саме героїв сторінки
+  const { data: heroes, isLoading, isError, error } = useQuery<
+    SuperheroListItem[],
+    Error
+  >({
+    queryKey: ["superheroes", page],
+    queryFn: () => api.get(`/paginated/${page}`).then(r => r.data)
+  });
 
+  // 2) Завантажуємо кількість сторінок
+  const { data: totalPages } = useQuery<number, Error>({
+    queryKey: ["superheroes", "pagesAmount"],
+    queryFn: async () => (await api.get("/pages/total")).data.pages,
+  });
+
+
+  if (isLoading) return <p>Loading...</p>;
+  if (isError) return <p style={{color: 'red'}}>Error: {error!.message}</p>;
+
+  // Рендер карток
   function HeroCard({ hero }: { hero: SuperheroListItem }) {
-    // Тепер використовуємо hero.image
-    const sources = getHeroImageSources(hero.nickname, hero.image);
+    const sources = getHeroImageSources(hero.nickname, hero.images);
     const [srcIndex, setSrcIndex] = React.useState(0);
-
     const handleError = () => {
-      if (srcIndex < sources.length - 1) {
-        setSrcIndex((i) => i + 1);
-      }
+      if (srcIndex < sources.length - 1) setSrcIndex(i => i + 1);
     };
-
     return (
       <div
-        key={hero.id}
-        onClick={(e) => handleClick(hero.id, e)}
-        style={{
-          border: "1px solid #ccc",
-          margin: 8,
-          padding: 8,
-          cursor: "pointer",
+        onClick={e => {
+          if (e.ctrlKey||e.metaKey) window.open(`/hero/${hero.id}`,"_blank");
+          else navigate(`/hero/${hero.id}`);
         }}
+        style={{ display: 'inline-block', margin: 8, cursor: 'pointer' }}
       >
-        <img
-          src={sources[srcIndex]}
-          alt={hero.nickname}
-          width={100}
-          onError={handleError}
-        />
+        <img src={sources[srcIndex]} onError={handleError} width={100} alt={hero.nickname}/>
         <p>{hero.nickname}</p>
       </div>
     );
@@ -59,24 +53,28 @@ export function SimpleSuperheroList() {
 
   return (
     <div>
-      <h2>Superheroes</h2>
+      <h2>Superheroes (Page {page} of {totalPages})</h2>
 
-      {isLoading && <p>Loading...</p>}
-      {isError && (
-        <p style={{ color: "red" }}>Error: {(error as Error).message}</p>
-      )}
+      <div>
+        {heroes!.map(h => <HeroCard key={h.id} hero={h} />)}
+      </div>
 
-      {data?.pages.map((page) =>
-        page.map((hero) => <HeroCard key={hero.id} hero={hero} />)
-      )}
-
-      {isFetchingNextPage && <p>Loading more...</p>}
-
-      {!isFetchingNextPage && hasNextPage && (
-        <button onClick={() => fetchNextPage()}>Load more</button>
-      )}
-
-      {!hasNextPage && !isLoading && <p>No more superheroes to load.</p>}
+      <div style={{ textAlign: 'center', marginTop: 16 }}>
+        {Array.from({ length: totalPages! }, (_, i) => i + 1).map(p => (
+          <button
+            key={p}
+            onClick={() => setPage(p)}
+            disabled={p === page}
+            style={{
+              margin: '0 4px',
+              backgroundColor: p === page ? '#ddd' : '#fff',
+              cursor: p === page ? 'default' : 'pointer',
+            }}
+          >
+            {p}
+          </button>
+        ))}
+      </div>
     </div>
   );
 }

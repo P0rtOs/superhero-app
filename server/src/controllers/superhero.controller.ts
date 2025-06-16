@@ -102,34 +102,43 @@ export default {
   },
 
   
-async updateImage(req: Request, res: Response, next: NextFunction): Promise<void> {
-  try {
-    if (!req.file) {
-      res.status(400).json({ error: 'No file uploaded' });
-      return;
-    }
+  async updateImage(req: Request, res: Response, next: NextFunction): Promise<void> {
+    try {
+      if (!req.file) {
+        res.status(400).json({ error: 'No file uploaded' });
+        return;
+      }
 
-    // лог про повний шлях
-    console.log('🛠 Checking file on disk:', req.file.path);
-    if (!fs.existsSync(req.file.path)) {
-      console.error('❌ File not found at path:', req.file.path);
-      res.status(500).json({ error: 'Uploaded file not found on server' });
-      return;
-    }
-    console.log('✅ File exists, ready to update DB');
+      // лог про повний шлях
+      console.log('🛠 Checking file on disk:', req.file.path);
+      if (!fs.existsSync(req.file.path)) {
+        console.error('❌ File not found at path:', req.file.path);
+        res.status(500).json({ error: 'Uploaded file not found on server' });
+        return;
+      }
+      console.log('✅ File exists, ready to update DB');
 
-    const heroId = req.params.id;
-    const imageUrl = `/uploads/${req.file.filename}`;
-    const updatedHero = await superheroService.updateSuperhero(heroId, { images: [imageUrl] });
+      const heroId = req.params.id;
+      const imageUrl = `/uploads/${req.file.filename}`;
+      const updatedHero = await superheroService.updateSuperhero(heroId, { images: [imageUrl] });
 
-    if (!updatedHero) {
-      res.status(404).json({ error: 'Superhero not found' });
-      return;
+      if (!updatedHero) {
+        res.status(404).json({ error: 'Superhero not found' });
+        return;
+      }
+      res.json(updatedHero);
+      } catch (error) {
+      next(error);
+      }
+  },
+
+  async getPagesAmount(_req: Request, res: Response, next: NextFunction): Promise<void> {
+    try {
+      const total = await superheroService.getPagesAmount();
+      res.json({ total });
+    } catch (error) {
+      next(error);
     }
-    res.json(updatedHero);
-  } catch (error) {
-    next(error);
-  }
-}
+  },
 
 };

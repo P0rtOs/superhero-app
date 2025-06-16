@@ -10,6 +10,7 @@ import { handleImageUpload } from '../middlewares/imageUpload.middleware';
 import { handleOptionalImageUpload } from '../middlewares/handleOptionalImageUpload';
 const router = Router();
 
+router.get('/pages/total', controller.getPagesAmount);
 router.post('/', upload.single('image'), handleImageUpload, validateCreateSuperhero, controller.createSuperhero);
 router.get('/', controller.getSuperheroes);
 router.get('/:id', controller.getSuperheroById);
@@ -18,5 +19,4 @@ router.delete('/:id', controller.deleteSuperhero);
 router.get('/range/:fromId/:toId', validateIdRange, controller.getByIdRange);
 router.get('/paginated/:id', controller.getPaginatedSuperheroes);
 router.get('/paginated/quick/:id', controller.getQuickPaginatedSuperheroes);
-
 export default router;
